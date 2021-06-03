@@ -171,6 +171,10 @@ int arena(char name[], int hp, int damage){
                     probihajici_hra = false;
                 }
             }
+            else{
+
+                printf("Neplatna akce!\n");
+            }
         }
 
         else{
@@ -262,6 +266,10 @@ int arena(char name[], int hp, int damage){
                     return zapas;
                     probihajici_hra = false;
                 }
+            }
+            else{
+
+                printf("Neplatna akce!\n");
             }
         }
 
