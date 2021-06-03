@@ -17,7 +17,7 @@ float winrate(float vyhra, int pocetHer){
 
 int arena(char name[], int hp, int damage){
 
-    char oponenti[][15] = {"Azog", "SAMS", "Destroyer", "HopperW12", "Zugabuk", "Yasuo", "StileSam", "IN5I", "Risanek1717", "basicalyOndra", "NOVO", "Baky", ":)"};
+    char oponenti[][15] = {"Azog", "SAMS", "Destroyer", "HopperW12", "Zugabuk", "Yasuo", "StileSam", "IN5I", "Risanek1717", "basicalyOndra", "NOVO", "Baky", "Majkl"};
     int index, akce, cooldown = 0, cooldown_ai = 0, zapas;
     int ai;
     bool probihajici_hra = true;
