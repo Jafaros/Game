@@ -1,4 +1,4 @@
-//Petr Grajciar, 2.B, PVA Bojová aréna, 2.6.2021
+//Petr Grajciar, 2.B, PVA League of Fighters, 5.6.2021
 
 #include <stdio.h>
 #include <time.h>
@@ -6,22 +6,32 @@
 #include <string.h>
 #include <stdbool.h>
 
+//Funkce na získání poměru výher a proher
 float winrate(float vyhra, int pocetHer){
     
     float winrate;
 
     winrate = (vyhra / pocetHer) * 100;
 
-    return winrate;
+    if(vyhra == 0 && pocetHer == 0){
+        winrate = 0;
+
+        return winrate;
+    }
+    else{
+        return winrate;
+    }
 }
 
+//Soubojový systém v aréně
 int arena(char name[], int hp, int damage){
 
-    char oponenti[][15] = {"Azog", "SAMS", "Destroyer", "HopperW12", "Zugabuk", "Yasuo", "StileSam", "IN5I", "Risanek1717", "basicalyOndra", "NOVO", "Baky", "Majkl"};
+    char oponenti[][15] = {"Azog", "SAMS", "HopperW12", "Zugabuk", "StileSam", "IN5I", "Risanek1717", "basicalyOndra", "NOVO", "Baky", "Majkl", "Miwory"};
     int index, akce, cooldown = 0, cooldown_ai = 0, zapas;
     int ai;
     bool probihajici_hra = true;
 
+    //Třída oponenta se staty
     struct Oponent{
         char name[15];
         int hp;
@@ -32,7 +42,7 @@ int arena(char name[], int hp, int damage){
 
     struct Oponent oponent;
 
-    index = rand() % 13;
+    index = rand() % 12;
     strcpy(oponent.name, oponenti[index]);
     oponent.hp = hp - rand() % 5;
     oponent.damage = damage;
@@ -49,6 +59,7 @@ int arena(char name[], int hp, int damage){
     printf("Zivoty hrace %s: %d HP\n", name, hp);
     printf("Zivoty hrace %s: %d HP\n\n", oponent.name, oponent.hp);
 
+    //Nekonečný while loop dokud boj neskončí
     while(probihajici_hra){
 
         ai = rand() % 3;
@@ -94,6 +105,7 @@ int arena(char name[], int hp, int damage){
                     }
                     else{
                         hp = hp - (oponent.damage + rand() % 5);
+                        printf("Cooldown na tezky utok je: %d kola\n", cooldown_ai);
                         printf("%s utoci\n", oponent.name);
                         printf("Zivoty hrace %s: %d HP\n", name, hp);
                     }
@@ -121,6 +133,7 @@ int arena(char name[], int hp, int damage){
                 else{
 
                     oponent.hp = oponent.hp - (damage + rand() % 5);
+                    printf("Cooldown na tezky utok je: %d kola\n", cooldown);
                     printf("%s utoci\n", name);
                     printf("Zivoty hrace %s: %d HP\n", oponent.name, oponent.hp);
                 }
@@ -156,7 +169,9 @@ int arena(char name[], int hp, int damage){
                         cooldown_ai = 3;
                     }
                     else{
+
                         hp = hp - (oponent.damage + rand() % 5);
+                        printf("Cooldown na tezky utok je: %d kola\n", cooldown_ai);
                         printf("%s utoci\n", oponent.name);
                         printf("Zivoty hrace %s: %d HP\n", name, hp);
                     }
@@ -205,6 +220,7 @@ int arena(char name[], int hp, int damage){
                 else{
 
                     hp = hp - (oponent.damage + rand() % 5);
+                    printf("Cooldown na tezky utok je: %d kola\n", cooldown_ai);
                     printf("%s utoci\n", oponent.name);
                     printf("Zivoty hrace %s: %d HP\n", name, hp);
                 }
@@ -254,6 +270,7 @@ int arena(char name[], int hp, int damage){
                 else{
 
                     oponent.hp = oponent.hp - (damage + rand() % 5);
+                    printf("Cooldown na tezky utok je: %d kola\n", cooldown);
                     printf("%s utoci\n", name);
                     printf("Zivoty hrace %s: %d HP\n", oponent.name, oponent.hp);
                 }
@@ -287,13 +304,14 @@ int arena(char name[], int hp, int damage){
 int main(void){
 
     char prikaz[10];
-    int hry = 0, vyhry = 0, hra;
-    float wr;
+    int vyhry = 0, hry = 0, hra;
+    float wr = 0;
+    int index;
+    int deset_her[10] = {2, 2, 2, 2, 2, 2, 2, 2, 2, 2};
 
-    int xp = 0;
-    int level = 0;
+    int xp = 0, level = 0;
 
-    //Class v jazyce C
+    //Třída Bojovníka se staty
     struct Bojovnik{
         char name[20];
         int hp;
@@ -304,7 +322,7 @@ int main(void){
 
     srand(time(NULL));
 
-    printf("========== Bojova arena ==========\n");
+    printf("========== League of Fighters ==========\n");
 
     //Zadání přezdívky a základní údaje o postavě
     printf("Zadejte vasi prezdivku: ");
@@ -373,22 +391,41 @@ int main(void){
         else if(strcmp(prikaz, "winrate") == 0){
 
             wr = winrate(vyhry, hry);
-            printf("Winrate: %.2f %%, Pocet her: %d, Vyhry: %d, Prohry: %d\n", wr, hry, vyhry, (hry - vyhry));
+            printf("Winrate: %.2f %%, Pocet her: %d, Vyhry: %d, Prohry: %d, Vysledek poslednich deseti her (Vyhra = O, Prohra = X): ", wr, hry, vyhry, (hry - vyhry));
+
+            for(int i = 0; i <= 9; i++){
+                if(deset_her[i] == 0){
+                    printf("X ");
+                }
+                else if(deset_her[i] == 1){
+                    printf("O ");
+                }
+            }
+
+            printf("\n");
         }
         //Vstup do arény
         else if(strcmp(prikaz, "arena") == 0){
 
             hra = arena(fighter.name, fighter.hp, fighter.damage);
             vyhry += hra;
+            hry++;
+            index++;
+
+            if(index == 11){
+                index = 0;
+            }
 
             if(hra == 1){
                 xp += (rand() % 25) + 15;
+
+                deset_her[index] = 1;
             }
             else{
                 xp += (rand() % 15) + 10;
-            }
 
-            hry++;
+                deset_her[index] = 0;
+            }
         }
 
         else{
